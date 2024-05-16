@@ -4,7 +4,7 @@
  # 디렉터리가 존재하는지 확인
  if [ -d "$directory" ]; then
      echo "디렉터리가 존재합니다. 삭제를 진행합니다."
-     rm -r "$directory"
+     sudo rm -r "$directory"
  else
      echo "디렉터리가 존재하지 않습니다. 아무 작업도 수행하지 않습니다."
  fi
