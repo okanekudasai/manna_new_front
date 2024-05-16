@@ -22,7 +22,4 @@ export default {
     justify-content: space-between;
     padding: 20px 30px;
 }
-#logo_container {
-    /* font-size: 30px; */
-}
 </style>

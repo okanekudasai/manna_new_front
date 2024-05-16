@@ -9,6 +9,9 @@ import router from './router'
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 
+import axios from 'axios'
+axios.defaults.withCredentials = true;
+
 const firebaseConfig = {
     apiKey: `${import.meta.env.VITE_FIREBASE_APIKEY}`,
     authDomain: `${import.meta.env.VITE_FIREBASE_AUTODOMAIN}`,
@@ -17,6 +20,7 @@ const firebaseConfig = {
     messagingSenderId: `${import.meta.env.VITE_FIREBASE_MESSAGINGSENDERID}`,
     appId: `${import.meta.env.VITE_FIREBASE_APPID}`,
     measurementId: `${import.meta.env.VITE_FIREBASE_MEASUREMENTID}`,
+    databaseURL: `${import.meta.env.VITE_FIREBASE_DATABASEURL}`,
 };
 
 const fb = initializeApp(firebaseConfig);
@@ -27,5 +31,10 @@ const app = createApp(App)
 app.config.globalProperties.$firebase = fb;
 app.use(createPinia())
 app.use(router)
+
+app.config.globalProperties.$axios = axios;
+app.config.globalProperties.$header = {
+    headers:{"Content-Type": "application/x-www-form-urlencoded"}
+}
 
 app.mount('#app')

@@ -1,14 +1,12 @@
 <template>
 	<div>
 		<router-view></router-view>
-		<button @click="delete_all_user()">유저 전체 삭제</button>
 	</div>
 </template>
 
 <script>
 import { useAccountStore } from '@/stores/account';
-import { onAuthStateChanged, getAuth, deleteUser } from 'firebase/auth'
-import { getDocs, collection, getFirestore, deleteDoc, doc } from "firebase/firestore"; 
+import { onAuthStateChanged, getAuth } from 'firebase/auth'
 
 export default {
 	created() {
@@ -28,27 +26,6 @@ export default {
             }
         });
 	},
-	methods: {
-		async delete_all_user() {
-			// const db = getFirestore();
-			// const querySnapshot = await getDocs(collection(db, "user"));
-			// console.log("문서 삭제를 시작합니다", querySnapshot)
-			// querySnapshot.forEach(async (doca) => {
-			// 	console.log(doca.id);
-			// 	await deleteDoc(doc(db, "user", doca.id));
-			// });
-			// console.log("문서 모두 삭제 완료");
-			const auth = getAuth();
-			console.log(auth)
-			const listUsersResult = await auth.listUsers(1000, );
-			console.log(listUsersResult)
-			// listUsersResult.users.forEach(async (userRecord) => {
-			// 	console.log(`유저 ${userRecord.uid} 삭제 시도`);
-			// 	await deleteUser(userRecord.uid);
-			// });
-			// console.log("모든 유저 삭제 완료");
-		}
-	}
 }
 </script>
 
