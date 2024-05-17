@@ -7,6 +7,8 @@
 <script>
 import { useAccountStore } from '@/stores/account';
 import { onAuthStateChanged, getAuth } from 'firebase/auth'
+import { doc, getDoc, getFirestore } from "firebase/firestore"; 
+
 
 export default {
 	created() {
@@ -14,7 +16,15 @@ export default {
         onAuthStateChanged(getAuth(), (user) => {
             if (user) {
                 const uid = user.uid;
-                console.log("로그인상태, uid : " + uid);
+				const db = getFirestore();
+				const docRef = doc(db, "user", user.uid);
+				getDoc(docRef).then((docSnap) => {
+						console.log("기존 유저, 내용 : ", docSnap.data());
+						useAccountStore().profile = {...docSnap.data()};
+					}
+				)
+				console.log(user);
+                console.log("로그인상태, uid : ", user);
                 // this.is_login = true;
 				useAccountStore().is_login = 2;
             } else {
@@ -25,7 +35,7 @@ export default {
 				useAccountStore().is_login = 1;
             }
         });
-	},
+	}
 }
 </script>
 
