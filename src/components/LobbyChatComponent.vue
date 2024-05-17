@@ -25,11 +25,11 @@ export default {
     },
     mounted() {
         useLobbyChatStore().$subscribe((mutation, state) => {
-            console.log("바뀜");
             this.chat_log = useLobbyChatStore().lobby_chat;
         });
+        this.chat_log = useLobbyChatStore().lobby_chat;
         this.$refs.chat_input.addEventListener("keydown", (e) => {
-            if (e.code == "Enter") {
+            if ((e.code == "Enter" || e.code == "NumpadEnter") && e.key == "Enter") {
                 this.chat_submit();
             }
         })

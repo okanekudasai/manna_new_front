@@ -9,9 +9,11 @@
 import { useAccountStore } from '@/stores/account';
 import { useLobbyChatStore } from '@/stores/lobbyChat';
 import { useSocketStore } from '@/stores/socket'
+import { make_cookie } from '@/util/commonUtil'
 
 export default {
 	created() {
+        const rt = this.$router;
         const socket = useSocketStore();
         socket.conn = new WebSocket(`${import.meta.env.VITE_API_SOCKET_SERVER}`);
 
@@ -62,13 +64,21 @@ export default {
                 console.log(value);
                 socket.chatroom_list = value;
             } else if (code == "get_lobby_chat") {
-                console.log(value);
                 useLobbyChatStore().lobby_chat.push({...value});
+            } else if (code == "get_my_room_number") {
+                console.log("만들어진 방의 번호 : " + value);
+                const res = await make_cookie();
+                if (res == 1) {
+                    this.$router.push({name: "chatRoom", params: { idx: value }})
+                } else {
+                    console.log("토큰가져오기 실패")
+                }
             }
         }
-
-        setInterval(() => {
-            socket.conn.send(JSON.stringify({event: "ping", data: {}}));
+        setTimeout(() => {
+            setInterval(() => {
+                socket.conn.send(JSON.stringify({event: "ping", data: {}}));
+            }, 30000)
         }, 30000)
     },
     beforeRouteLeave() {
