@@ -67,11 +67,13 @@ export default {
         },
         async go_room(idx) {
             const res = await this.make_cookie();
-            if (res == 1) {
-                this.$router.push({name: "chatRoom", params: { idx: idx }})
-            } else {
-                console.log("토큰가져오기 실패")
-            }
+            setTimeout(() => {
+                if (res == 1) {
+                    this.$router.push({name: "chatRoom", params: { idx: idx }})
+                } else {
+                    console.log("토큰가져오기 실패")
+                }
+            }, 2000)
         }
     },
 }
