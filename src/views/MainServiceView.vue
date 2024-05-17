@@ -10,7 +10,7 @@ import { useAccountStore } from '@/stores/account';
 import { useSocketStore } from '@/stores/socket'
 
 export default {
-	setup() {
+	created() {
         const socket = useSocketStore();
         socket.conn = new WebSocket(`${import.meta.env.VITE_API_SOCKET_SERVER}`);
 
@@ -18,7 +18,6 @@ export default {
             console.log("get connected to socket!");
             let try_count = 0;
             const interval = setInterval(() => {
-                console.log("시도 " + useAccountStore().profile);
                 try_count++;
                 if (socket.conn.readyState != WebSocket.OPEN) {
                     clearInterval(interval)
@@ -26,7 +25,6 @@ export default {
                     // this.$router.push("/");
                 }
                 else if(useAccountStore().profile != []) {
-                    console.log({...useAccountStore().profile});
                     socket.conn.send(JSON.stringify({event: "enter_people", data: {...useAccountStore().profile}}));
                     clearInterval(interval)
                 }
@@ -49,7 +47,6 @@ export default {
                 socket.people_list = value.people_list;
                 console.log("현재접속중인 사람", socket.people_list);
             } else if (code == "new_person_come") {
-                console.log("$#$#",socket.people_list.length, value.person);
                 socket.people_list.push(value.person);
                 console.log("현재접속중인 사람", socket.people_list);
             } else if (code == "person_leaved") {

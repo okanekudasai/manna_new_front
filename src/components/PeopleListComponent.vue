@@ -2,7 +2,8 @@
     <div style="border: solid; padding: 20px; margin: 20px;">
         사람리스트
         <div v-for="p in people_list">
-            닉넴 : {{ p.nickname }} / 레벨 : {{ p.level }} / 경험치 : {{ p.exp }}
+            {{ p }}
+            <!-- 닉넴 : {{ p.nickname }} / 레벨 : {{ p.level }} / 경험치 : {{ p.exp }} -->
         </div>
     </div>
 </template>

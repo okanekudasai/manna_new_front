@@ -50,10 +50,8 @@ export default {
             let try_count = 0;
             const res = await new Promise((resolve, reject) => {
                 const interval = setInterval(() => {
-                    console.log("시도 " + useAccountStore().profile);
                     try_count++;
                     if(useAccountStore().profile != []) {
-                        console.log("토큰 가져오기 시도 중");
                         this.$axios.get(`${import.meta.env.VITE_API_SERVER}/chat/getToken/${useAccountStore().profile.nickname}`)
                         clearInterval(interval)
                         resolve(1);
@@ -69,7 +67,6 @@ export default {
         },
         async go_room(idx) {
             const res = await this.make_cookie();
-            console.log(res);
             if (res == 1) {
                 this.$router.push({name: "chatRoom", params: { idx: idx }})
             } else {

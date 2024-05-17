@@ -11,17 +11,18 @@ import { useSocketStore } from '@/stores/socket';
 
 export default {
     beforeRouteLeave() {
-        console.log("떠남")
+        this.$axios.delete(`${import.meta.env.VITE_API_SERVER}/chat/deleteToken`)
     },
     async beforeCreate() {
         const res = await this.$axios.get(`${import.meta.env.VITE_API_SERVER}/chat/confirmToken`).then(r => r.data);
-        console.log("!!!!!" + res, res == false);
         if (res == false) {
             useSocketStore().conn.close();
             this.$router.push("/");
         }
     },
     async created() {
+        const room_idx = this.$route.params.idx;
+        useSocketStore().conn.send(JSON.stringify({event: "enter_room", data: {}}));
     }
 }
 </script>
