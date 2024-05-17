@@ -42,7 +42,7 @@ export default {
                 return;
             }
             this.chat_input = "";
-            useSocketStore().conn.send(JSON.stringify({event: "lobby_chat", data: {sender: useAccountStore().profile.nickname, text: data}}));
+            useSocketStore().conn.send(JSON.stringify({event: "room_chat", data: {sender: useAccountStore().profile.nickname, text: data, roomNumber: 0}}));
         }
     }
 }

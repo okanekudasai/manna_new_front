@@ -22,12 +22,7 @@ export default {
             let try_count = 0;
             const interval = setInterval(() => {
                 try_count++;
-                if (socket.conn.readyState != WebSocket.OPEN) {
-                    clearInterval(interval)
-                    alert("연결이 끊겼어요. 다시 접속해 주세요");
-                    // this.$router.push("/");
-                }
-                else if(useAccountStore().profile != []) {
+                if(useAccountStore().profile != [] && socket.conn.readyState == WebSocket.OPEN) {
                     socket.conn.send(JSON.stringify({event: "enter_people", data: {...useAccountStore().profile}}));
                     clearInterval(interval)
                 }
@@ -59,17 +54,21 @@ export default {
                         break;
                     }
                 }
+                socket.chatroom_list = value.room;
                 console.log("현재접속중인 사람", socket.people_list);
             } else if (code == "get_room_list") {
-                console.log(value);
-                socket.chatroom_list = value;
+                console.log("새롭게 받아옴!");
+                socket.chatroom_list = value.chatroom_set;
+                socket.people_list = value.people_set;
             } else if (code == "get_lobby_chat") {
                 useLobbyChatStore().lobby_chat.push({...value});
             } else if (code == "get_my_room_number") {
                 console.log("만들어진 방의 번호 : " + value);
                 const res = await make_cookie();
                 if (res == 1) {
+                    await socket.conn.send(JSON.stringify({event: "enter_room", data: {idx: value}}));
                     this.$router.push({name: "chatRoom", params: { idx: value }})
+                    
                 } else {
                     console.log("토큰가져오기 실패")
                 }
