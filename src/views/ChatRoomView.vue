@@ -12,6 +12,7 @@ import { useSocketStore } from '@/stores/socket';
 export default {
     beforeRouteLeave() {
         this.$axios.delete(`${import.meta.env.VITE_API_SERVER}/chat/deleteToken`)
+        useSocketStore().conn.send(JSON.stringify({event: "enter_lobby", data: {}}));
     },
     async beforeCreate() {
         const res = await this.$axios.get(`${import.meta.env.VITE_API_SERVER}/chat/confirmToken`).then(r => r.data);

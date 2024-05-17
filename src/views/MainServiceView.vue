@@ -7,6 +7,7 @@
 
 <script>
 import { useAccountStore } from '@/stores/account';
+import { useLobbyChatStore } from '@/stores/lobbyChat';
 import { useSocketStore } from '@/stores/socket'
 
 export default {
@@ -60,6 +61,9 @@ export default {
             } else if (code == "get_room_list") {
                 console.log(value);
                 socket.chatroom_list = value;
+            } else if (code == "get_lobby_chat") {
+                console.log(value);
+                useLobbyChatStore().lobby_chat.push({...value});
             }
         }
 
